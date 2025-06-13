@@ -66,6 +66,7 @@ class Form : AppCompatActivity() {
             val type = object : TypeToken<MutableList<HistoryItem>>() {}.type
             val list: MutableList<HistoryItem> = gson.fromJson(existingJson, type)
 
+            // fix argumen
             list.add(HistoryItem(kategori, tanggal, sumberDana))
 
             val newJson = gson.toJson(list)
