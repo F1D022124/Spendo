@@ -17,6 +17,12 @@ class CustomPieChartView @JvmOverloads constructor(
         style = Paint.Style.FILL
     }
 
+    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.WHITE
+        textSize = 40f
+        textAlign = Paint.Align.CENTER
+    }
+
     private var pieData: List<PieChartData> = emptyList()
 
     fun setData(data: List<PieChartData>) {
@@ -44,6 +50,14 @@ class CustomPieChartView @JvmOverloads constructor(
                 centerX + radius, centerY + radius,
                 startAngle, sweepAngle, true, paint
             )
+
+            // Tambahkan teks persentase di tengah segmen
+            val angle = Math.toRadians((startAngle + sweepAngle / 2).toDouble())
+            val textX = centerX + (radius * 0.6f * Math.cos(angle)).toFloat()
+            val textY = centerY + (radius * 0.6f * Math.sin(angle)).toDouble().toFloat()
+            val percentage = (item.value / total) * 100
+            canvas.drawText(String.format("%.1f%%", percentage), textX, textY, textPaint)
+
             startAngle += sweepAngle
         }
     }

@@ -1,7 +1,8 @@
 package psti.unram.spendo
 
 data class HistoryItem(
-    val tanggal: String,
+    val barang: String,
     val kategori: String,
-    val jumlah: String
+    val tanggal: String,
+    val sumberDana: String
 )

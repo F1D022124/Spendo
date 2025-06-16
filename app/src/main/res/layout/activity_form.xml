@@ -111,6 +111,15 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"/>
+<!--            <AutoCompleteTextView-->
+<!--                android:id="@+id/dropdownKategori"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:hint="Choose your category"-->
+<!--                android:fontFamily="@font/roppins_regular"-->
+<!--                android:background="@drawable/input"-->
+<!--                android:padding="10sp"-->
+<!--                android:inputType="none"/>-->
             <AutoCompleteTextView
                 android:id="@+id/dropdownKategori"
                 android:layout_width="match_parent"
@@ -119,7 +128,8 @@
                 android:fontFamily="@font/roppins_regular"
                 android:background="@drawable/input"
                 android:padding="10sp"
-                android:inputType="none"/>
+                android:completionThreshold="0"
+                android:dropDownHeight="wrap_content" />
 
             <!-- Tanggal -->
             <TextView

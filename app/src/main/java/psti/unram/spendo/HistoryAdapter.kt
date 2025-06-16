@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-
 class HistoryAdapter(private val list: List<HistoryItem>) :
     RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
 
@@ -14,6 +13,7 @@ class HistoryAdapter(private val list: List<HistoryItem>) :
         val tvTanggal: TextView = itemView.findViewById(R.id.tvTanggal)
         val tvKategori: TextView = itemView.findViewById(R.id.tvKategori)
         val tvJumlah: TextView = itemView.findViewById(R.id.tvJumlah)
+        val tvBarang: TextView = itemView.findViewById(R.id.tvBarang)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,7 +26,8 @@ class HistoryAdapter(private val list: List<HistoryItem>) :
         val item = list[position]
         holder.tvTanggal.text = item.tanggal
         holder.tvKategori.text = item.kategori
-        holder.tvJumlah.text = item.jumlah
+        holder.tvJumlah.text = item.sumberDana
+        holder.tvBarang.text = item.barang
     }
 
     override fun getItemCount(): Int = list.size

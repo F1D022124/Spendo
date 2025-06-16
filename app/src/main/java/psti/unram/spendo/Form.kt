@@ -35,7 +35,11 @@ class Form : AppCompatActivity() {
         val danaList = listOf("Tabungan", "Kredit")
 
         kategoriDropdown.setAdapter(ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, kategoriList))
+        kategoriDropdown.threshold = 0
+        kategoriDropdown.setOnClickListener { kategoriDropdown.showDropDown() }
         sumberDanaDropdown.setAdapter(ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, danaList))
+        sumberDanaDropdown.threshold = 0
+        sumberDanaDropdown.setOnClickListener { sumberDanaDropdown.showDropDown() }
 
         // Tanggal picker
         tanggalField.setOnClickListener {
@@ -47,6 +51,38 @@ class Form : AppCompatActivity() {
             datePicker.show()
         }
 
+//        submit.setOnClickListener {
+//            val barang = inbarang.text.toString()
+//            val kategori = kategoriDropdown.text.toString()
+//            val sumberDana = sumberDanaDropdown.text.toString()
+//            val tanggal = tanggalField.text.toString()
+//
+//            if (barang.isEmpty() || kategori.isEmpty() || sumberDana.isEmpty() || tanggal.isEmpty()) {
+//                Toast.makeText(this, "Lengkapi semua data!", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+//
+//            val sharedPref = getSharedPreferences(PREF_NAME, MODE_PRIVATE)
+//            val editor = sharedPref.edit()
+//            val gson = Gson()
+//
+//            val existingJson = sharedPref.getString(RIWAYAT_KEY, "[]")
+//            val type = object : TypeToken<MutableList<HistoryItem>>() {}.type
+//            val list: MutableList<HistoryItem> = gson.fromJson(existingJson, type) ?: mutableListOf()
+//
+//            list.add(HistoryItem(barang, kategori, tanggal, sumberDana))
+//
+//            val newJson = gson.toJson(list)
+//            editor.putString(RIWAYAT_KEY, newJson)
+//            editor.apply()
+//
+////            val intent = Intent(this, Riwayat::class.java)
+////            startActivity(intent)
+////            finish()
+//            val intent = Intent(this, Perhitungan::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
         submit.setOnClickListener {
             val barang = inbarang.text.toString()
             val kategori = kategoriDropdown.text.toString()
@@ -64,16 +100,20 @@ class Form : AppCompatActivity() {
 
             val existingJson = sharedPref.getString(RIWAYAT_KEY, "[]")
             val type = object : TypeToken<MutableList<HistoryItem>>() {}.type
-            val list: MutableList<HistoryItem> = gson.fromJson(existingJson, type)
+            val list: MutableList<HistoryItem> = gson.fromJson(existingJson, type) ?: mutableListOf()
 
-            // fix argumen sesuai kelas historyitem
-            list.add(HistoryItem(kategori, tanggal, sumberDana))
+            list.add(HistoryItem(barang, kategori, tanggal, sumberDana))
 
             val newJson = gson.toJson(list)
             editor.putString(RIWAYAT_KEY, newJson)
             editor.apply()
 
-            val intent = Intent(this, Riwayat::class.java)
+            // Kirim data ke Perhitungan
+            val intent = Intent(this, Perhitungan::class.java)
+            intent.putExtra("barang", barang)
+            intent.putExtra("kategori", kategori)
+            intent.putExtra("sumberDana", sumberDana)
+            intent.putExtra("tanggal", tanggal)
             startActivity(intent)
             finish()
         }
