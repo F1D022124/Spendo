@@ -2,63 +2,88 @@ package psti.unram.spendo
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.google.gson.Gson
 
 class Rekomendasi3 : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_rekomendasi3)
-            val headlay = findViewById<LinearLayout>(R.id.headerLayout7)
-            val navigation = findViewById<ImageView>(R.id.ivback)
-            val recomresult = findViewById<TextView>(R.id.tvtithitung)
-            val container = findViewById<LinearLayout>(R.id.formLayout8)
-            val ivgashop = findViewById<ImageView>(R.id.ivgashop)
-            val gashop = findViewById<TextView>(R.id.tvgashop)
-            val tryagain = findViewById<Button>(R.id.btncblg)
-            val backmenus =findViewById<Button>(R.id.btnbkmenu)
-            val footer = findViewById<LinearLayout>(R.id.footerLayout)
-            val menu1 = findViewById<ImageView>(R.id.ivhome)
-            val menu2 = findViewById<ImageView>(R.id.ivinput)
-            val menu3 = findViewById<ImageView>(R.id.ivclock)
-            val menu4 = findViewById<ImageView>(R.id.ivlight)
-            val menu5 = findViewById<ImageView>(R.id.ivuser)
 
+        // Inisialisasi view
+        val ivBack = findViewById<ImageView>(R.id.ivBack)
+        val ivhome = findViewById<ImageView>(R.id.ivhome)
+        val ivinput = findViewById<ImageView>(R.id.ivinput)
+        val ivToRiwayat = findViewById<ImageView>(R.id.ivToRiwayat)
+        val ivuser = findViewById<ImageView>(R.id.ivuser)
+        val btnTryAgain = findViewById<Button>(R.id.btnTryAgain)
+        val tvCalculationDetails = findViewById<TextView>(R.id.tvCalculationDetails)
 
-            menu1.setOnClickListener {
-                val intent = Intent(this, Beranda::class.java)
-                startActivity(intent)
-            }
-            menu2.setOnClickListener {
-                val intent = Intent(this, Form::class.java)
-                startActivity(intent)
-            }
-            menu3.setOnClickListener {
-                val intent = Intent(this, Keuangan::class.java)
-                startActivity(intent)
-            }
-            menu4.setOnClickListener {
-                val intent = Intent(this, Riwayat::class.java)
-                startActivity(intent)
-            }
-            menu5.setOnClickListener {
-                val intent = Intent(this, Profil::class.java)
-                startActivity(intent)
-            }
-            tryagain.setOnClickListener {
-                val intent = Intent(this, Form::class.java)
-                startActivity(intent)
-            }
-            backmenus.setOnClickListener {
-                val intent = Intent(this, Beranda::class.java)
-                startActivity(intent)
-            }
+        // Ambil data dari Intent
+        val gson = Gson()
+        val historyItemJson = intent.getStringExtra("HISTORY_ITEM")
+        val historyItem = historyItemJson?.let {
+            gson.fromJson(it, HistoryItem::class.java)
+        }
+
+        // Tampilkan rincian perhitungan
+        historyItem?.let {
+            tvCalculationDetails.text = """
+                Nama Barang: ${it.namaBarang}
+                Harga: Rp${String.format("%,.0f", it.harga)}
+                Fungsi: ${it.fungsi}
+                Frekuensi: ${it.frekuensi}
+                Pengeluaran Tambahan: Rp${String.format("%,.0f", it.pengeluaranTambahan)}
+                Gaji: Rp${String.format("%,.0f", it.gaji)}
+                Pengeluaran Tetap: Rp${String.format("%,.0f", it.pengeluaranTetap)}
+                Tanggungan: ${it.tanggungan}
+                Skor SAW: ${String.format("%.3f", it.skorSAW)}
+                Bobot: Harga (0.4), Fungsi (0.3), Frekuensi (0.2), Keuangan (0.1)
+            """.trimIndent()
+        }
+
+        // Navigasi
+        ivBack.setOnClickListener {
+            ivBack.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Beranda::class.java))
+            finish()
+        }
+
+        ivhome.setOnClickListener {
+            ivhome.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Beranda::class.java))
+            finish()
+        }
+
+        ivinput.setOnClickListener {
+            ivinput.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Form::class.java))
+            finish()
+        }
+
+        ivToRiwayat.setOnClickListener {
+            ivToRiwayat.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Riwayat::class.java))
+            finish()
+        }
+
+        ivuser.setOnClickListener {
+            ivuser.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Profil::class.java))
+            finish()
+        }
+
+        btnTryAgain.setOnClickListener {
+            btnTryAgain.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Form::class.java))
+            finish()
+        }
     }
 }

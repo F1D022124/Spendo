@@ -13,7 +13,7 @@
         <clip>
             <shape android:shape="rectangle">
                 <corners android:radius="20dp"/>
-                <solid android:color="#0047AB"/> <!-- Warna biru -->
+                <solid android:color="#06D001"/> <!-- Warna biru -->
             </shape>
         </clip>
     </item>

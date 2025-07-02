@@ -2,57 +2,94 @@ package psti.unram.spendo
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Keuangan : AppCompatActivity() {
+
+    private val scope = CoroutineScope(Dispatchers.Main)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_keuangan)
 
-        val headlay = findViewById<LinearLayout>(R.id.headerLayout)
-        val back = findViewById<ImageView>(R.id.ivBack)
-        val titkeuangan = findViewById<TextView>(R.id.tvTitle)
-        val tips = findViewById<LinearLayout>(R.id.tipsSection)
-        val laykeuangan = findViewById<LinearLayout>(R.id.keuangan)
-        val ivkeuangan = findViewById<ImageView>(R.id.ividea)
-        val title = findViewById<TextView>(R.id.tvkeuangan)
-        val penjelasan = findViewById<TextView>(R.id.tvRecommendation)
-        val footer = findViewById<LinearLayout>(R.id.footerLayout)
-        val menu1 = findViewById<ImageView>(R.id.ivhome)
-        val menu2 = findViewById<ImageView>(R.id.ivinput)
-        val menu3 = findViewById<ImageView>(R.id.ivclock)
-        val menu4 = findViewById<ImageView>(R.id.ivlight)
-        val menu5 = findViewById<ImageView>(R.id.ivuser)
+        // Inisialisasi view
+        val ivBack = findViewById<ImageView>(R.id.ivBack)
+        val tvTitle = findViewById<TextView>(R.id.tvTitle)
+        val rvTips = findViewById<RecyclerView>(R.id.rvTips)
+        val ivhome = findViewById<ImageView>(R.id.ivhome)
+        val ivinput = findViewById<ImageView>(R.id.ivinput)
+        val ivlight = findViewById<ImageView>(R.id.ivlight)
+        val ivclock = findViewById<ImageView>(R.id.ivclock)
+        val ivuser = findViewById<ImageView>(R.id.ivuser)
 
-
-        menu1.setOnClickListener {
-            val intent = Intent(this, Beranda::class.java)
-            startActivity(intent)
-        }
-        menu2.setOnClickListener {
-            val intent = Intent(this, Form::class.java)
-            startActivity(intent)
-        }
-        menu3.setOnClickListener {
-            val intent = Intent(this, Keuangan::class.java)
-            startActivity(intent)
-        }
-        menu4.setOnClickListener {
-            val intent = Intent(this, Riwayat::class.java)
-            startActivity(intent)
-        }
-        menu5.setOnClickListener {
-            val intent = Intent(this, Profil::class.java)
-            startActivity(intent)
+        // Muat tips secara asinkronus
+        scope.launch {
+            val tips = loadTipsFromJson()
+            rvTips.layoutManager = LinearLayoutManager(this@Keuangan)
+            rvTips.adapter = TipsAdapter(tips)
+            rvTips.isNestedScrollingEnabled = false
         }
 
+        // Navigasi
+        ivBack.setOnClickListener {
+            ivBack.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Beranda::class.java))
+            finish()
+        }
+
+        ivhome.setOnClickListener {
+            ivhome.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Beranda::class.java))
+            finish()
+        }
+
+        ivinput.setOnClickListener {
+            ivinput.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Form::class.java))
+            finish()
+        }
+
+        ivlight.setOnClickListener {
+            ivlight.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            // Sudah di Keuangan
+        }
+
+        ivclock.setOnClickListener {
+            ivclock.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Riwayat::class.java))
+            finish()
+        }
+
+        ivuser.setOnClickListener {
+            ivuser.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
+            startActivity(Intent(this, Profil::class.java))
+            finish()
+        }
+    }
+
+    private suspend fun loadTipsFromJson(): List<FinanceTip> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val json = assets.open("tips.json").bufferedReader().use { it.readText() }
+                val type = object : TypeToken<List<FinanceTip>>() {}.type
+                Gson().fromJson(json, type) ?: emptyList()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emptyList()
+            }
+        }
     }
 }

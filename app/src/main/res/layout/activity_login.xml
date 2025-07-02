@@ -5,57 +5,52 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3F51B5"
+    android:background="#093FB4"
     tools:context=".Login">
 
-    <!-- Header -->
-    <LinearLayout
-        android:id="@+id/headerLayout2"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:background="#0047AB"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
+    <!-- Back Button -->
+    <ImageView
+        android:id="@+id/ivBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="Back"
+        android:src="@drawable/baseline_arrow_back_ios_new_24"
+        app:tint="@android:color/white"
+        android:padding="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/tvlog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome"
-            android:fontFamily="@font/poppins_extrabold"
-            android:textColor="#FFFFFF"
-            android:textSize="36sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Form Container -->
     <LinearLayout
         android:id="@+id/formLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:padding="16dp"
+        android:layout_margin="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="172dp"
         android:background="@drawable/putih"
         android:orientation="vertical"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout2">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
 
         <!-- Title -->
         <TextView
             android:id="@+id/tvlog2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="center"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/poppins_bold"
+            android:gravity="center"
             android:text="Login"
             android:textColor="#0047AB"
-            android:textSize="28sp"
+            android:textSize="33sp"
             android:textStyle="bold" />
 
         <!-- Email -->
@@ -63,49 +58,69 @@
             android:id="@+id/tvemail2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingStart="4dp"
             android:text="Email"
-            android:fontFamily="@font/roppins_regular"
-            android:textColor="#000"
-            android:textSize="16sp"
-            android:paddingStart="8dp" />
+            android:textColor="#000000"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvlog2" />
 
         <EditText
             android:id="@+id/etemail2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/input"
-            android:fontFamily="@font/roppins_regular"
-            android:hint="Enter Email"
+            android:fontFamily="@font/poppins_regular"
+            android:hint="Masukkan Email"
             android:inputType="textEmailAddress"
             android:padding="12dp"
             android:textColor="#0047AB"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
-
+            android:textColorHint="#757575"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvemail2" />
 
         <!-- Password -->
         <TextView
             android:id="@+id/tvpassword2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:paddingStart="4dp"
             android:text="Password"
-            android:fontFamily="@font/roppins_regular"
-            android:textColor="#000"
-            android:textSize="16sp"
-            android:paddingStart="8dp" />
+            android:textColor="#000000"
+            android:textSize="17dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etemail2" />
 
-        <EditText
-            android:id="@+id/etpassword2"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/input"
-            android:fontFamily="@font/roppins_regular"
-            android:hint="Enter Password"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:textSize="14sp"
-            android:textColor="#0047AB"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="18dp"
+            app:endIconMode="password_toggle"
+            app:endIconTint="#0047AB"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvpassword2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etpassword2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Masukkan Password"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:textColor="#0047AB"
+                android:textColorHint="#757575"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Sign Up Button -->
         <Button
@@ -119,7 +134,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-
         <!-- Already have account -->
         <LinearLayout
             android:layout_width="wrap_content"
@@ -132,8 +146,8 @@
                 android:id="@+id/tvakun2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
                 android:text="Belum punya akun?"
-                android:fontFamily="@font/roppins_regular"
                 android:textColor="#0047AB"
                 android:textSize="14sp" />
 
@@ -141,8 +155,8 @@
                 android:id="@+id/tvsignup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" Sign Up"
                 android:fontFamily="@font/poppins_bold"
+                android:text=" Sign Up"
                 android:textColor="#0047AB"
                 android:textSize="14sp"
                 android:textStyle="bold" />

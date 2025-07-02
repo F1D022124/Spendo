@@ -5,56 +5,71 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E3F2FD"
+    android:background="#093FB4"
     tools:context=".MainActivity">
 
+    <!-- Nama Aplikasi -->
     <TextView
-        android:id="@+id/textMain"
-        android:layout_width="match_parent"
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="50dp"
-        android:gravity="center"
-        android:text="SpendoMeter"
-        android:fontFamily="@font/poppins_extrabold"
-        android:textColor="#2196F3"
-        android:textSize="40sp"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="Spendometer"
+        android:textColor="#FFFFFF"
+        android:textSize="43dp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="368dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Tagline -->
+    <TextView
+        android:id="@+id/tvTagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="Prioritaskan Keuanganmu dengan Bijak!"
+        android:textColor="#FEFBC7"
+        android:textSize="17dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvAppName" />
 
-    <LinearLayout
-        android:layout_width="384dp"
-        android:layout_height="112dp"
-        android:orientation="vertical"
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:contentDescription="Spendometer Logo"
+        android:src="@drawable/spendometer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTagline"
+        app:layout_constraintBottom_toTopOf="@id/btnStart"
+        app:layout_constraintVertical_bias="0.4" />
+
+    <!-- Tombol Start -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStart"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="80dp"
+        android:backgroundTint="#F4A300"
+        android:padding="8dp"
+        android:text="Mulai"
+        android:fontFamily="@font/poppins_bold"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textMain"
-        app:layout_constraintVertical_bias="0.133"
-        tools:layout_editor_absoluteX="16dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnstart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:backgroundTint="#F4A300"
-            android:text="Get Started"
-            android:fontFamily="@font/poppins_bold"
-            android:textStyle="bold"
-            android:textColor="#FFFF"
-            android:textSize="20sp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnlogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:backgroundTint="#2196F3"
-            android:padding="3dp"
-            android:text="Login"
-            android:textStyle="bold"
-            android:textColor="#FFFF"
-            android:textSize="20sp" />
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivLogo"
+        app:layout_constraintVertical_bias="0.3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

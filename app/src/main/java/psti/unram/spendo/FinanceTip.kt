@@ -1,6 +1,6 @@
 package psti.unram.spendo
 
-data class TipItem(
+data class FinanceTip(
     val title: String,
     val description: String
 )

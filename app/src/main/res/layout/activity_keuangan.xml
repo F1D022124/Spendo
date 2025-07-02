@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -13,94 +14,103 @@
         android:id="@+id/headerLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:background="#093FB4"
+        android:padding="20dp"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="#2196F3"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/ivBack"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:contentDescription="Kembali"
+            android:layout_marginTop="4dp"
+            android:padding="4dp"
             android:src="@drawable/baseline_arrow_back_ios_new_24"
-            android:contentDescription="Back"
-            android:layout_gravity="center_vertical" />
+            app:tint="@android:color/white" />
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Financial Insight"
+            android:text="Keuangan"
+            android:layout_marginTop="3dp"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:layout_marginStart="8dp"
+            android:fontFamily="@font/poppins_bold"
             android:layout_gravity="center_vertical" />
     </LinearLayout>
 
     <!-- Tips Section -->
-    <LinearLayout
-        android:id="@+id/tipsSection"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:background="@drawable/bg_gradient_card"
-        android:elevation="4dp"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintBottom_toTopOf="@id/footerLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp">
+        android:fillViewport="true">
 
         <LinearLayout
-            android:id="@+id/keuangan"
+            android:id="@+id/tipsSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
+            android:orientation="vertical"
+            android:layout_margin="16dp"
+            android:padding="24dp"
+            android:background="@drawable/rounded_form_background"
+            android:elevation="3dp">
 
-            <ImageView
-                android:id="@+id/ividea"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@mipmap/ic_idea"
-                android:layout_marginEnd="8dp"
-                android:contentDescription="Tips Icon" />
-
-            <TextView
-                android:id="@+id/tvkeuangan"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/keuangan"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Smart Spending Tips"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#000000"
-                android:fontFamily="@font/poppins_bold" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/ivIdea"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/baseline_lightbulb_24"
+                    android:contentDescription="Ikon Tips"
+                    app:tint="#004D40" />
+
+                <TextView
+                    android:id="@+id/tvKeuangan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tips Keuangan"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="#004D40"
+                    android:fontFamily="@font/poppins_bold" />
+            </LinearLayout>
+
+            <!-- RecyclerView for Tips -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_tip" />
         </LinearLayout>
+    </ScrollView>
 
-        <!-- Tip Message -->
-        <TextView
-            android:id="@+id/tvRecommendation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Set aside at least 20% of your income for savings before spending on non-essentials. This helps build financial security."
-            android:textColor="#000000"
-            android:textSize="16sp"
-            android:lineSpacingExtra="4dp"
-            android:fontFamily="@font/poppins_medium" />
-    </LinearLayout>
-
-    <!-- Bottom Navigation -->
+    <!-- Footer -->
     <LinearLayout
         android:id="@+id/footerLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/footer"
-        android:padding="12dp"
+        android:padding="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -108,47 +118,71 @@
         <ImageView
             android:id="@+id/ivhome"
             android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:src="@drawable/menu5"
+            android:layout_height="36dp"
             android:layout_gravity="center"
-            android:contentDescription="Home" />
+            android:layout_weight="1"
+            android:contentDescription="Beranda"
+            android:src="@drawable/menu5"
+            android:background="@null"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            android:padding="4dp"
+            app:tint="@android:color/white" />
 
         <ImageView
             android:id="@+id/ivinput"
             android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:src="@drawable/menu4"
+            android:layout_height="36dp"
             android:layout_gravity="center"
-            android:contentDescription="Input" />
+            android:layout_weight="1"
+            android:contentDescription="Input"
+            android:src="@drawable/menu4"
+            android:background="@null"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            android:padding="4dp"
+            app:tint="@android:color/white" />
 
         <ImageView
             android:id="@+id/ivlight"
             android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:src="@drawable/menu3"
+            android:layout_height="36dp"
             android:layout_gravity="center"
-            android:contentDescription="Light" />
+            android:layout_weight="1"
+            android:contentDescription="Keuangan"
+            android:src="@drawable/menu3"
+            android:background="@null"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            android:padding="4dp"
+            app:tint="@android:color/white" />
 
         <ImageView
             android:id="@+id/ivclock"
             android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:src="@drawable/menu2"
+            android:layout_height="36dp"
             android:layout_gravity="center"
-            android:contentDescription="Clock" />
+            android:layout_weight="1"
+            android:contentDescription="Riwayat"
+            android:src="@drawable/menu2"
+            android:background="@null"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            android:padding="4dp"
+            app:tint="@android:color/white" />
 
         <ImageView
             android:id="@+id/ivuser"
             android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:src="@drawable/menu1"
+            android:layout_height="36dp"
             android:layout_gravity="center"
-            android:contentDescription="User" />
+            android:layout_weight="1"
+            android:contentDescription="Profil"
+            android:src="@drawable/menu1"
+            android:background="@null"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            android:padding="4dp"
+            app:tint="@android:color/white" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.button.MaterialButton
 
 class Loading1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,15 +18,14 @@ class Loading1 : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_loading1)
 
-        val layload1 = findViewById<LinearLayout>(R.id.Llload1)
-        val load1 = findViewById<TextView>(R.id.tvload1)
-        val footload = findViewById<LinearLayout>(R.id.footerLayout)
-        val imload = findViewById<ImageView>(R.id.ivload1)
-        val btnload = findViewById<Button>(R.id.btnNext)
+        // Initialize views
+        val btnNext = findViewById<MaterialButton>(R.id.btnNext)
 
-        btnload.setOnClickListener {
+        // Next button click listener
+        btnNext.setOnClickListener {
             val intent = Intent(this, Loading2::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E3F2FD"
@@ -10,179 +11,215 @@
 
     <!-- Header -->
     <LinearLayout
-        android:id="@+id/headerLayout3"
+        android:id="@+id/headerLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#E3F2FD"
-        android:padding="16dp"
+        android:background="#093FB4"
+        android:padding="20dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:id="@+id/ivback"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/baseline_arrow_back_ios_new_24"
+            android:id="@+id/ivBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:contentDescription="Kembali"
-            android:layout_gravity="center_vertical"/>
+            android:layout_marginTop="4dp"
+            android:padding="4dp"
+            android:src="@drawable/baseline_arrow_back_ios_new_24"
+            app:tint="@android:color/white" />
 
         <TextView
-            android:id="@+id/tvtitle"
+            android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Budget Check"
-            android:textColor="#004D40"
-            android:textSize="20sp"
+            android:text="Input Barang"
+            android:layout_marginTop="3dp"
+            android:textColor="#FFFFFF"
+            android:textSize="26sp"
             android:textStyle="bold"
             android:layout_marginStart="8dp"
             android:fontFamily="@font/poppins_bold"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 
-    <!-- Scrollable Form -->
+    <!-- Form Scrollable -->
     <ScrollView
-        android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout3"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
         app:layout_constraintBottom_toTopOf="@id/footerLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:id="@+id/lybawah"
+            android:id="@+id/formContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_margin="16dp"
             android:padding="24dp"
-            android:background="@drawable/putih">
-
-            <!-- Judul -->
-            <TextView
-                android:id="@+id/tvtitbwh1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="New Financial Entry"
-                android:textStyle="bold"
-                android:textSize="28sp"
-                android:textColor="@color/black"
-                android:paddingBottom="4dp"
-                android:fontFamily="@font/poppins_bold"/>
+            android:background="@drawable/rounded_form_background"
+            android:elevation="3dp">
 
             <TextView
-                android:id="@+id/tvtitbwh2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Please enter complete financial information!"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/roppins_regular"
-                android:paddingBottom="12dp"/>
+                android:text="Input Barang"
+                android:textColor="#004D40"
+                android:textSize="26sp"
+                android:fontFamily="@font/poppins_bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Masukkan informasi barang Anda!"
+                android:textColor="#004D40"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_medium" />
 
             <!-- Nama Barang -->
             <TextView
-                android:id="@+id/tvbarang"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Item Name"
-                android:fontFamily="@font/poppins_semibold"
+                android:text="Nama Barang"
+                android:textColor="#004D40"
                 android:textSize="16sp"
-                android:layout_marginTop="16dp"/>
+                android:fontFamily="@font/poppins_semibold" />
+
             <EditText
-                android:id="@+id/etBarang"
+                android:id="@+id/etItemName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Example:Shirt"
-                android:fontFamily="@font/roppins_regular"
-                android:inputType="textCapWords"
-                android:background="@drawable/input"
-                android:padding="10sp"/>
+                android:hint="Contoh: Lemari"
+                android:inputType="text"
+                android:background="@drawable/rounded_field_background"
+                android:textColor="#004D40"
+                android:textColorHint="#66004D40"
+                android:padding="10dp"
+                android:fontFamily="@font/poppins_regular" />
 
-            <!-- Kategori -->
+            <!-- Harga -->
             <TextView
-                android:id="@+id/tvkategori"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category"
-                android:fontFamily="@font/poppins_semibold"
+                android:text="Harga (Rp)"
+                android:textColor="#004D40"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
-<!--            <AutoCompleteTextView-->
-<!--                android:id="@+id/dropdownKategori"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:hint="Choose your category"-->
-<!--                android:fontFamily="@font/roppins_regular"-->
-<!--                android:background="@drawable/input"-->
-<!--                android:padding="10sp"-->
-<!--                android:inputType="none"/>-->
-            <AutoCompleteTextView
-                android:id="@+id/dropdownKategori"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Choose your category"
-                android:fontFamily="@font/roppins_regular"
-                android:background="@drawable/input"
-                android:padding="10sp"
-                android:completionThreshold="0"
-                android:dropDownHeight="wrap_content" />
+                android:fontFamily="@font/poppins_semibold" />
 
-            <!-- Tanggal -->
-            <TextView
-                android:id="@+id/tvtanggal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Date"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
             <EditText
-                android:id="@+id/etTanggal"
+                android:id="@+id/etPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Choose date"
-                android:fontFamily="@font/roppins_regular"
-                android:focusable="false"
-                android:inputType="none"
-                android:background="@drawable/input"
-                android:padding="12dp"/>
+                android:hint="Contoh: 1200000"
+                android:inputType="numberDecimal"
+                android:background="@drawable/rounded_field_background"
+                android:textColor="#004D40"
+                android:textColorHint="#66004D40"
+                android:padding="10dp"
+                android:fontFamily="@font/poppins_regular" />
 
-            <!-- Sumber Dana -->
+            <!-- Pengeluaran Tambahan -->
             <TextView
-                android:id="@+id/tvdana"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Source of Funds"
-                android:fontFamily="@font/poppins_semibold"
+                android:text="Pengeluaran Tambahan (Rp)"
+                android:textColor="#004D40"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
-            <AutoCompleteTextView
-                android:id="@+id/dropdownDana"
+                android:fontFamily="@font/poppins_semibold" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Choose funds"
-                android:fontFamily="@font/roppins_regular"
-                android:background="@drawable/input"
-                android:padding="12dp"
-                android:inputType="none"/>
+                android:text="Masukkan biaya tambahan terkait barang (contoh: biaya perawatan)"
+                android:textColor="#004D40"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppins_regular" />
 
-            <!-- Tombol Submit -->
+            <EditText
+                android:id="@+id/etExpenses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contoh: 3000000"
+                android:inputType="numberDecimal"
+                android:background="@drawable/rounded_field_background"
+                android:textColor="#004D40"
+                android:textColorHint="#66004D40"
+                android:padding="10dp"
+                android:fontFamily="@font/poppins_regular" />
+
+            <!-- Fungsi -->
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fungsi"
+                android:textColor="#004D40"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_semibold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:background="@drawable/rounded_field_background">
+
+                <AutoCompleteTextView
+                    android:id="@+id/dropdownFunction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:hint="Pilih Fungsi"
+                    android:textColor="#004D40"
+                    android:textColorHint="#66004D40"
+                    android:fontFamily="@font/poppins_regular" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Frekuensi -->
+            <TextView
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Frekuensi Penggunaan"
+                android:textColor="#004D40"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_semibold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:background="@drawable/rounded_field_background">
+
+                <AutoCompleteTextView
+                    android:id="@+id/dropdownFrequency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:hint="Pilih Frekuensi"
+                    android:textColor="#004D40"
+                    android:textColorHint="#66004D40"
+                    android:fontFamily="@font/poppins_regular" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Tombol Simpan -->
             <Button
                 android:id="@+id/btnSubmit"
+                android:layout_marginTop="24dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Save"
-                android:textSize="14sp"
-                android:fontFamily="@font/poppins_bold"
-                android:textColor="@color/white"
+                android:text="Simpan"
+                android:textColor="@android:color/white"
                 android:backgroundTint="#F4A300"
-                android:layout_marginTop="24dp"/>
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_bold" />
         </LinearLayout>
     </ScrollView>
 
@@ -193,7 +230,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/footer"
-        android:padding="12dp"
+        android:padding="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -201,42 +238,57 @@
         <ImageView
             android:id="@+id/ivhome"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
+            android:contentDescription="Beranda"
             android:src="@drawable/menu5"
-            android:contentDescription="Home"/>
+            android:background="@null"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            android:padding="4dp"
+            app:tint="@android:color/white" />
 
         <ImageView
             android:id="@+id/ivinput"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
+            android:contentDescription="Input"
             android:src="@drawable/menu4"
-            android:contentDescription="Input"/>
+            android:background="@null"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            android:padding="4dp"
+            app:tint="@color/icon_active" />
 
         <ImageView
-            android:id="@+id/ivlight"
+            android:id="@+id/ivToRiwayat"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/menu3"
-            android:contentDescription="Light"/>
-
-        <ImageView
-            android:id="@+id/ivclock"
-            android:layout_width="0dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
+            android:contentDescription="Riwayat"
             android:src="@drawable/menu2"
-            android:contentDescription="Clock"/>
+            android:background="@null"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            android:padding="4dp"
+            app:tint="@android:color/white" />
 
         <ImageView
             android:id="@+id/ivuser"
             android:layout_width="0dp"
-            android:layout_height="32dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
+            android:contentDescription="Profil"
             android:src="@drawable/menu1"
-            android:contentDescription="User"/>
+            android:background="@null"
+            android:scaleX="1.0"
+            android:scaleY="1.0"
+            android:padding="4dp"
+            app:tint="@android:color/white" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
