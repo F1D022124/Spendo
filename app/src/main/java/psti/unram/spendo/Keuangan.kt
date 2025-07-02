@@ -31,8 +31,7 @@ class Keuangan : AppCompatActivity() {
         val rvTips = findViewById<RecyclerView>(R.id.rvTips)
         val ivhome = findViewById<ImageView>(R.id.ivhome)
         val ivinput = findViewById<ImageView>(R.id.ivinput)
-        val ivlight = findViewById<ImageView>(R.id.ivlight)
-        val ivclock = findViewById<ImageView>(R.id.ivclock)
+        val ivclock = findViewById<ImageView>(R.id.ivToRiwayat)
         val ivuser = findViewById<ImageView>(R.id.ivuser)
 
         // Muat tips secara asinkronus
@@ -60,11 +59,6 @@ class Keuangan : AppCompatActivity() {
             ivinput.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
             startActivity(Intent(this, Form::class.java))
             finish()
-        }
-
-        ivlight.setOnClickListener {
-            ivlight.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
-            // Sudah di Keuangan
         }
 
         ivclock.setOnClickListener {

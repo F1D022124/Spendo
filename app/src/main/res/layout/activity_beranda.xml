@@ -37,7 +37,7 @@
             android:text="Halo, Guest!"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="18dp"
             android:layout_marginBottom="14dp"
             android:fontFamily="@font/poppins_bold"
             android:gravity="start" />

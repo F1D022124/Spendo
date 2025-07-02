@@ -39,7 +39,7 @@ class ProfilKeuangan : AppCompatActivity() {
         val ivBack = findViewById<ImageView>(R.id.ivBack)
         val ivhome = findViewById<ImageView>(R.id.ivhome)
         val ivinput = findViewById<ImageView>(R.id.ivinput)
-        val ivclock = findViewById<ImageView>(R.id.ivclock)
+        val ivclock = findViewById<ImageView>(R.id.ivToRiwayat)
         val ivuser = findViewById<ImageView>(R.id.ivuser)
 
         // Logging untuk memeriksa null view
