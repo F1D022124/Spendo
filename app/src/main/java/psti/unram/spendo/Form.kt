@@ -2,6 +2,8 @@ package psti.unram.spendo
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
@@ -19,14 +21,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import psti.unram.spendo.data.AppDatabase
-import psti.unram.spendo.data.Riwayat
+import psti.unram.spendo.data.Riwayat as RiwayatEntity
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class Form : AppCompatActivity() {
-    private val PREF_NAME = "riwayat_pref"
-    private val RIWAYAT_KEY = "riwayat_list"
     private val USER_PREFS = "UserPrefs"
     private val TAG = "Form"
     private val scope = CoroutineScope(Dispatchers.Main)
@@ -69,6 +69,10 @@ class Form : AppCompatActivity() {
         dropdownFrequency.setAdapter(ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, frekuensiList))
         dropdownFunction.setOnClickListener { dropdownFunction.showDropDown() }
         dropdownFrequency.setOnClickListener { dropdownFrequency.showDropDown() }
+
+        // Add thousands separator to etPrice and etExpenses
+        etPrice.addTextChangedListener(ThousandsSeparatorTextWatcher())
+        etExpenses.addTextChangedListener(ThousandsSeparatorTextWatcher())
 
         // Ambil userName dari UserPrefs
         val userPrefs = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
@@ -113,7 +117,7 @@ class Form : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-                // Ambil userId
+                // Ambil userId dan ProfilKeuangan untuk validasi sisa anggaran
                 scope.launch {
                     val user = withContext(Dispatchers.IO) { dao.getUserByUsername(userName) }
                     if (user == null) {
@@ -126,16 +130,7 @@ class Form : AppCompatActivity() {
                         return@launch
                     }
 
-                    // Hitung SAW
-                    val (hasilRekomendasi, skorSAW) = perhitungan.calculateEligibility(
-                        userId = user.id,
-                        harga = hargaDouble,
-                        fungsi = fungsi,
-                        frekuensi = frekuensi,
-                        pengeluaranTambahan = pengeluaranTambahanDouble
-                    )
-
-                    // Ambil data ProfilKeuangan untuk menyimpan ke Riwayat
+                    // Ambil data ProfilKeuangan untuk validasi sisa anggaran
                     val profil = withContext(Dispatchers.IO) { dao.getProfilKeuanganByUserId(user.id) }
                     if (profil == null) {
                         Log.e(TAG, "ProfilKeuangan for userId ${user.id} not found")
@@ -149,8 +144,35 @@ class Form : AppCompatActivity() {
                     val gajiDouble = profil.gaji.toDoubleOrNull() ?: 0.0
                     val pengeluaranTetapDouble = profil.pengeluaranTetap.toDoubleOrNull() ?: 0.0
                     val tanggunganInt = profil.tanggungan.toIntOrNull() ?: 0
+                    val sisaAnggaran = gajiDouble - pengeluaranTetapDouble
 
-                    // Simpan ke SharedPreferences
+                    // Validasi harga barang <= saldo awal
+                    if (hargaDouble > sisaAnggaran) {
+                        Log.w(TAG, "Validation failed: Harga barang ($hargaDouble) melebihi saldo awal ($sisaAnggaran)")
+                        Toast.makeText(this@Form, "Harga barang (Rp${String.format("%,.0f", hargaDouble)}) melebihi saldo awal (Rp${String.format("%,.0f", sisaAnggaran)}). Tidak dapat disubmit.", Toast.LENGTH_LONG).show()
+                        return@launch
+                    }
+
+                    // Validasi total pengeluaran < sisa anggaran untuk mencegah sisa saldo negatif
+                    val totalExpenses = hargaDouble + pengeluaranTambahanDouble
+                    if (totalExpenses >= sisaAnggaran) {
+                        Log.w(TAG, "Validation failed: Total expenses ($totalExpenses) exceeds or equals sisa anggaran (saldo awal) ($sisaAnggaran)")
+                        Toast.makeText(this@Form, "Total pengeluaran (Rp${String.format("%,.0f", totalExpenses)}) melebihi saldo awal (Rp${String.format("%,.0f", sisaAnggaran)}). Tidak dapat disubmit.", Toast.LENGTH_LONG).show()
+                        return@launch
+                    }
+
+                    // Hitung SAW
+                    val (hasilRekomendasi, skorSAW) = perhitungan.calculateEligibility(
+                        userId = user.id,
+                        harga = hargaDouble,
+                        fungsi = fungsi,
+                        frekuensi = frekuensi,
+                        pengeluaranTambahan = pengeluaranTambahanDouble
+                    )
+
+                    // Simpan ke SharedPreferences dengan kunci spesifik untuk userId
+                    val PREF_NAME = "riwayat_pref_${user.id}"
+                    val RIWAYAT_KEY = "riwayat_list"
                     val sharedPref = getSharedPreferences(PREF_NAME, MODE_PRIVATE)
                     val gson = Gson()
                     val historyList = withContext(Dispatchers.IO) {
@@ -178,7 +200,7 @@ class Form : AppCompatActivity() {
                     }
 
                     // Simpan ke Riwayat di database
-                    val riwayat = Riwayat(
+                    val riwayat = RiwayatEntity(
                         userId = user.id,
                         namaBarang = namaBarang,
                         harga = hargaDouble,
@@ -267,6 +289,36 @@ class Form : AppCompatActivity() {
             } catch (e: Exception) {
                 Log.e(TAG, "Navigation Error to Profil: ${e.message}", e)
                 Toast.makeText(this, "Gagal ke Profil", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // TextWatcher for thousands separator
+    private inner class ThousandsSeparatorTextWatcher : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+        override fun afterTextChanged(s: Editable?) {
+            s?.let { editable ->
+                val editText = when {
+                    editable === findViewById<EditText>(R.id.etPrice).text -> findViewById<EditText>(R.id.etPrice)
+                    editable === findViewById<EditText>(R.id.etExpenses).text -> findViewById<EditText>(R.id.etExpenses)
+                    else -> return
+                }
+                editText.removeTextChangedListener(this)
+                val original = editable.toString().replace(",", "")
+                if (original.isNotEmpty()) {
+                    try {
+                        val number = original.toLong()
+                        val formatted = String.format("%,d", number)
+                        editText.setText(formatted)
+                        editText.setSelection(formatted.length)
+                    } catch (e: NumberFormatException) {
+                        // Ignore invalid input
+                    }
+                }
+                editText.addTextChangedListener(this)
             }
         }
     }

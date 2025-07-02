@@ -3,6 +3,8 @@ package psti.unram.spendo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -37,7 +39,6 @@ class ProfilKeuangan : AppCompatActivity() {
         val ivBack = findViewById<ImageView>(R.id.ivBack)
         val ivhome = findViewById<ImageView>(R.id.ivhome)
         val ivinput = findViewById<ImageView>(R.id.ivinput)
-        val ivlight = findViewById<ImageView>(R.id.ivlight)
         val ivclock = findViewById<ImageView>(R.id.ivclock)
         val ivuser = findViewById<ImageView>(R.id.ivuser)
 
@@ -49,9 +50,12 @@ class ProfilKeuangan : AppCompatActivity() {
         if (ivBack == null) Log.e(TAG, "ivBack is null, check activity_profil_keuangan.xml for R.id.ivBack")
         if (ivhome == null) Log.e(TAG, "ivhome is null, check activity_profil_keuangan.xml for R.id.ivhome")
         if (ivinput == null) Log.e(TAG, "ivinput is null, check activity_profil_keuangan.xml for R.id.ivinput")
-        if (ivlight == null) Log.e(TAG, "ivlight is null, check activity_profil_keuangan.xml for R.id.ivlight")
         if (ivclock == null) Log.e(TAG, "ivclock is null, check activity_profil_keuangan.xml for R.id.ivclock")
         if (ivuser == null) Log.e(TAG, "ivuser is null, check activity_profil_keuangan.xml for R.id.ivuser")
+
+        // Add thousands separator to etGaji and etPengeluaranTetap
+        etGaji.addTextChangedListener(ThousandsSeparatorTextWatcher())
+        etPengeluaranTetap.addTextChangedListener(ThousandsSeparatorTextWatcher())
 
         // Ambil userName dari UserPrefs
         val userPrefs = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
@@ -81,8 +85,8 @@ class ProfilKeuangan : AppCompatActivity() {
             }
             val profil = withContext(Dispatchers.IO) { dao.getProfilKeuanganByUserId(user.id) }
             profil?.let {
-                etGaji.setText(it.gaji)
-                etPengeluaranTetap.setText(it.pengeluaranTetap)
+                etGaji.setText(String.format("%,d", it.gaji.toLongOrNull() ?: 0))
+                etPengeluaranTetap.setText(String.format("%,d", it.pengeluaranTetap.toLongOrNull() ?: 0))
                 etTanggungan.setText(it.tanggungan)
                 Log.d(TAG, "Loaded Gaji: ${it.gaji}, Pengeluaran Tetap: ${it.pengeluaranTetap}, Tanggungan: ${it.tanggungan}")
             }
@@ -206,11 +210,6 @@ class ProfilKeuangan : AppCompatActivity() {
             }
         }
 
-        ivlight?.setOnClickListener {
-            ivlight.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
-            Toast.makeText(this, "Anda sudah di halaman Profil Keuangan", Toast.LENGTH_SHORT).show()
-        }
-
         ivclock?.setOnClickListener {
             ivclock.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
             try {
@@ -237,5 +236,35 @@ class ProfilKeuangan : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         scope.cancel()
+    }
+
+    // TextWatcher for thousands separator
+    private inner class ThousandsSeparatorTextWatcher : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+        override fun afterTextChanged(s: Editable?) {
+            s?.let { editable ->
+                val editText = when {
+                    editable === findViewById<EditText>(R.id.etGaji).text -> findViewById<EditText>(R.id.etGaji)
+                    editable === findViewById<EditText>(R.id.etPengeluaranTetap).text -> findViewById<EditText>(R.id.etPengeluaranTetap)
+                    else -> return
+                }
+                editText.removeTextChangedListener(this)
+                val original = editable.toString().replace(",", "")
+                if (original.isNotEmpty()) {
+                    try {
+                        val number = original.toLong()
+                        val formatted = String.format("%,d", number)
+                        editText.setText(formatted)
+                        editText.setSelection(formatted.length)
+                    } catch (e: NumberFormatException) {
+                        // Ignore invalid input
+                    }
+                }
+                editText.addTextChangedListener(this)
+            }
+        }
     }
 }

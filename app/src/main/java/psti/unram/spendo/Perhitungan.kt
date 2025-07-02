@@ -32,6 +32,26 @@ class Perhitungan(private val dao: AppDao) {
             Log.e(TAG, "Invalid tanggungan format: ${profil.tanggungan}")
         }
 
+        // Validasi input keuangan
+        if (gaji < 0 || pengeluaranTetap < 0 || tanggungan < 0 || harga < 0 || pengeluaranTambahan < 0) {
+            Log.w(TAG, "Invalid input: Negative values detected (gaji=$gaji, pengeluaranTetap=$pengeluaranTetap, tanggungan=$tanggungan, harga=$harga, pengeluaranTambahan=$pengeluaranTambahan)")
+            return Pair("Tidak Direkomendasikan", 0.0)
+        }
+
+        // Hitung saldo awal (gaji - pengeluaranTetap) sebagai sisa anggaran
+        val sisaAnggaran = gaji - pengeluaranTetap
+        if (sisaAnggaran <= 0) {
+            Log.w(TAG, "Sisa anggaran (saldo awal) ($sisaAnggaran) is zero or negative")
+            return Pair("Tidak Direkomendasikan", 0.0)
+        }
+
+        // Validasi total pengeluaran < sisa anggaran
+        val totalExpenses = harga + pengeluaranTambahan
+        if (totalExpenses >= sisaAnggaran) {
+            Log.w(TAG, "Total expenses ($totalExpenses) exceeds or equals sisa anggaran ($sisaAnggaran)")
+            return Pair("Tidak Direkomendasikan", 0.0)
+        }
+
         // Bobot kriteria
         val weightHarga = 0.4
         val weightFungsi = 0.3
@@ -72,10 +92,10 @@ class Perhitungan(private val dao: AppDao) {
         }
         val normalizedFrekuensi = skorFrekuensi / maxFrekuensi
 
-        // Keuangan (benefit, semakin besar sisa anggaran semakin baik)
-        val sisaAnggaran = gaji - pengeluaranTetap - pengeluaranTambahan - (tanggungan * 500_000.0)
+        // Keuangan (benefit, semakin besar sisa anggaran setelah pembelian semakin baik)
+        val sisaAnggaranAfterPurchase = gaji - pengeluaranTetap - pengeluaranTambahan - (tanggungan * 500_000.0)
         val normalizedKeuangan = if (maxKeuangan != minKeuangan) {
-            (sisaAnggaran.coerceAtLeast(0.0)) / maxKeuangan
+            (sisaAnggaranAfterPurchase.coerceAtLeast(0.0)) / maxKeuangan
         } else {
             0.0
         }
@@ -94,8 +114,9 @@ class Perhitungan(private val dao: AppDao) {
         }
 
         // Logging untuk debugging
-        Log.d(TAG, "Harga: $harga, Fungsi: $fungsi, Frekuensi: $frekuensi")
-        Log.d(TAG, "Gaji: $gaji, Pengeluaran Tetap: $pengeluaranTetap, Pengeluaran Tambahan: $pengeluaranTambahan, Tanggungan: $tanggungan")
+        Log.d(TAG, "Input: Harga=$harga, Fungsi=$fungsi, Frekuensi=$frekuensi, PengeluaranTambahan=$pengeluaranTambahan")
+        Log.d(TAG, "Profil: Gaji=$gaji, PengeluaranTetap=$pengeluaranTetap, Tanggungan=$tanggungan")
+        Log.d(TAG, "Validation: SisaAnggaran=$sisaAnggaran, TotalExpenses=$totalExpenses, SisaAnggaranAfterPurchase=$sisaAnggaranAfterPurchase")
         Log.d(TAG, "Skor: Harga=$normalizedHarga, Fungsi=$normalizedFungsi, Frekuensi=$normalizedFrekuensi, Keuangan=$normalizedKeuangan")
         Log.d(TAG, "Skor SAW: $skorSAW, Hasil: $hasilRekomendasi")
 

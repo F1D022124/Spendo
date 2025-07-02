@@ -6,11 +6,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TipsAdapter(private val tipsList: List<FinanceTip>) : RecyclerView.Adapter<TipsAdapter.TipViewHolder>() {
+class TipsAdapter(private val tips: List<FinanceTip>) : RecyclerView.Adapter<TipsAdapter.TipViewHolder>() {
 
     class TipViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvTipTitle: TextView = itemView.findViewById(R.id.tvTipTitle)
-        val tvTipDescription: TextView = itemView.findViewById(R.id.tvTipDescription)
+        private val tvTitle: TextView = itemView.findViewById(R.id.tvTipTitle)
+        private val tvDescription: TextView = itemView.findViewById(R.id.tvTipDescription)
+
+        fun bind(tip: FinanceTip) {
+            tvTitle.text = tip.title
+            tvDescription.text = tip.description
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TipViewHolder {
@@ -19,10 +24,8 @@ class TipsAdapter(private val tipsList: List<FinanceTip>) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: TipViewHolder, position: Int) {
-        val tip = tipsList[position]
-        holder.tvTipTitle.text = tip.title
-        holder.tvTipDescription.text = tip.description
+        holder.bind(tips[position])
     }
 
-    override fun getItemCount(): Int = tipsList.size
+    override fun getItemCount(): Int = tips.size
 }

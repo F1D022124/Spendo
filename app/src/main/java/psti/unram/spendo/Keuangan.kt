@@ -40,7 +40,7 @@ class Keuangan : AppCompatActivity() {
             val tips = loadTipsFromJson()
             rvTips.layoutManager = LinearLayoutManager(this@Keuangan)
             rvTips.adapter = TipsAdapter(tips)
-            rvTips.isNestedScrollingEnabled = false
+            // Removed: rvTips.isNestedScrollingEnabled = false
         }
 
         // Navigasi

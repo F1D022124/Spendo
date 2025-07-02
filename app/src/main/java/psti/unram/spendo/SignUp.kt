@@ -3,6 +3,7 @@ package psti.unram.spendo
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.animation.AnimationUtils
 import android.widget.Button
@@ -24,6 +25,7 @@ import psti.unram.spendo.data.User
 class SignUp : AppCompatActivity() {
     private val scope = CoroutineScope(Dispatchers.Main)
     private val USER_PREFS = "UserPrefs"
+    private val TAG = "SignUp"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,14 +112,15 @@ class SignUp : AppCompatActivity() {
                     dao.insertUser(user)
                 }
 
-                // Simpan email sebagai user_name ke SharedPreferences untuk Beranda
+                // Simpan data ke SharedPreferences
                 val sharedPreferences = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
                 with(sharedPreferences.edit()) {
                     putString("user_name", email)
                     putString("user_email", email)
                     putString("user_password", password) // Simpan untuk kompatibilitas sementara
-                    putString("display_name", name) // Simpan nama untuk tampilan
+                    putString("display_name", name)
                     apply()
+                    Log.d(TAG, "Saved to SharedPreferences: user_name=$email, display_name=$name")
                 }
 
                 // Show success dialog

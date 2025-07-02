@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 class Profil : AppCompatActivity() {
 
     private val USER_PREFS = "UserPrefs"
-    private val KEY_NAMA = "user_name"
+    private val KEY_NAMA = "display_name"
     private val KEY_EMAIL = "user_email"
     private val TAG = "Profil"
     private var isEditing = false
@@ -28,7 +28,6 @@ class Profil : AppCompatActivity() {
         val ivProfile = findViewById<ImageView>(R.id.ivProfile)
         val etNama = findViewById<EditText>(R.id.etNama)
         val etEmail = findViewById<EditText>(R.id.etEmail)
-        val btnEditProfil = findViewById<Button>(R.id.btnEditProfil)
         val btnProfilKeuangan = findViewById<Button>(R.id.btnProfilKeuangan)
         val btnLogout = findViewById<Button>(R.id.btnLogout)
         val ivBack = findViewById<ImageView>(R.id.ivBack)
@@ -39,6 +38,10 @@ class Profil : AppCompatActivity() {
 
         // Logging untuk memeriksa null view
         if (ivProfile == null) Log.e(TAG, "ivProfile is null, check activity_profil.xml for R.id.ivProfile")
+        if (etNama == null) Log.e(TAG, "etNama is null, check activity_profil.xml for R.id.etNama")
+        if (etEmail == null) Log.e(TAG, "etEmail is null, check activity_profil.xml for R.id.etEmail")
+        if (btnProfilKeuangan == null) Log.e(TAG, "btnProfilKeuangan is null, check activity_profil.xml for R.id.btnProfilKeuangan")
+        if (btnLogout == null) Log.e(TAG, "btnLogout is null, check activity_profil.xml for R.id.btnLogout")
         if (ivBack == null) Log.e(TAG, "ivBack is null, check activity_profil.xml for R.id.ivBack")
         if (ivhome == null) Log.e(TAG, "ivhome is null, check activity_profil.xml for R.id.ivhome")
         if (ivinput == null) Log.e(TAG, "ivinput is null, check activity_profil.xml for R.id.ivinput")
@@ -47,32 +50,19 @@ class Profil : AppCompatActivity() {
 
         // Muat data pengguna dari UserPrefs
         val userPrefs = getSharedPreferences(USER_PREFS, MODE_PRIVATE)
-        etNama.setText(userPrefs.getString(KEY_NAMA, ""))
-        etEmail.setText(userPrefs.getString(KEY_EMAIL, ""))
-
-        // Tombol Edit Profil
-        btnEditProfil.setOnClickListener {
-            btnEditProfil.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_bold))
-            if (isEditing) {
-                // Simpan nama
-                val nama = etNama.text.toString().trim()
-                if (nama.isEmpty()) {
-                    Toast.makeText(this, "Nama tidak boleh kosong!", Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-                userPrefs.edit().putString(KEY_NAMA, nama).apply()
-                etNama.isEnabled = false
-                btnEditProfil.text = "Edit Profil"
-                isEditing = false
-                Toast.makeText(this, "Nama disimpan!", Toast.LENGTH_SHORT).show()
-            } else {
-                // Aktifkan edit nama
-                etNama.isEnabled = true
-                etNama.requestFocus()
-                btnEditProfil.text = "Simpan"
-                isEditing = true
-            }
+        val userName = userPrefs.getString("user_name", null)?.takeIf { it.isNotBlank() } ?: run {
+            Log.e(TAG, "user_name not found in SharedPreferences")
+            Toast.makeText(this, "Pengguna tidak ditemukan, silakan login ulang", Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, Login::class.java))
+            finish()
+            return
         }
+        val displayName = userPrefs.getString(KEY_NAMA, userName.split("@")[0])?.takeIf { it.isNotBlank() }?.replace("_", " ")?.split(" ")?.joinToString(" ") { word ->
+            word.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+        } ?: userName.split("@")[0].replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
+        Log.d(TAG, "UserName: $userName, DisplayName: $displayName")
+        etNama.setText(displayName)
+        etEmail.setText(userPrefs.getString(KEY_EMAIL, ""))
 
         // Tombol Profil Keuangan
         btnProfilKeuangan.setOnClickListener {

@@ -1,5 +1,6 @@
 package psti.unram.spendo
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,16 @@ import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
 
-class HistoryAdapter(private var historyList: List<HistoryItem>) :
-    RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+class HistoryAdapter(
+    private var historyList: List<HistoryItem>,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+
+    private val TAG = "HistoryAdapter"
+
+    interface OnItemClickListener {
+        fun onItemClick(historyItem: HistoryItem)
+    }
 
     class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvNamaBarang: TextView = itemView.findViewById(R.id.tvNamaBarang)
@@ -67,6 +76,12 @@ class HistoryAdapter(private var historyList: List<HistoryItem>) :
                 holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.grey))
                 holder.ivStatus.setColorFilter(ContextCompat.getColor(context, R.color.grey))
             }
+        }
+
+        // Tambahkan OnClickListener untuk item
+        holder.itemView.setOnClickListener {
+            Log.d(TAG, "Item clicked: ${historyItem.namaBarang}, Hasil: ${historyItem.hasilRekomendasi}")
+            listener.onItemClick(historyItem)
         }
     }
 
