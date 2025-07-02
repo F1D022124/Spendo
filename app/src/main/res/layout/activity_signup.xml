@@ -5,170 +5,227 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3F51B5"
-    tools:context=".Signup">
-
-    <!-- Header -->
-    <LinearLayout
-        android:id="@+id/headerLayout"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:background="#0047AB"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/tvsgnup1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create Account"
-            android:fontFamily="@font/poppins_extrabold"
-            android:textColor="#FFFFFF"
-            android:textSize="36sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+    android:background="#093FB4"
+    tools:context=".SignUp">
 
     <!-- Form Container -->
-    <LinearLayout
-        android:id="@+id/formLayout"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/formLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:padding="16dp"
-        android:background="@drawable/putih"
-        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/tvsgnup2"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="center"
-            android:fontFamily="@font/poppins_bold"
-            android:text="Sign Up"
-            android:textColor="#0047AB"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            android:padding="16dp">
 
-        <!-- Email -->
-        <TextView
-            android:id="@+id/tvemail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Email"
-            android:fontFamily="@font/roppins_regular"
-            android:textColor="#000"
-            android:textSize="16sp"
-            android:paddingStart="8dp" />
-
-        <EditText
-            android:id="@+id/etemail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/input"
-            android:fontFamily="@font/roppins_regular"
-            android:hint="Enter Email"
-            android:inputType="textEmailAddress"
-            android:padding="12dp"
-            android:textColor="#0047AB"
-            android:textSize="14sp"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Username -->
-        <TextView
-            android:id="@+id/tvusername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Username"
-            android:fontFamily="@font/roppins_regular"
-            android:textColor="#000"
-            android:textSize="16sp"
-            android:paddingStart="8dp" />
-
-        <EditText
-            android:id="@+id/etusername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/input"
-            android:fontFamily="@font/roppins_regular"
-            android:hint="Enter Username"
-            android:inputType="text"
-            android:padding="12dp"
-            android:textSize="14sp"
-            android:textColor="#0047AB"
-            android:layout_marginBottom="8dp" />
-
-        <!-- Password -->
-        <TextView
-            android:id="@+id/tvpassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Password"
-            android:fontFamily="@font/roppins_regular"
-            android:textColor="#000"
-            android:textSize="16sp"
-            android:paddingStart="8dp" />
-
-        <EditText
-            android:id="@+id/etpassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/input"
-            android:fontFamily="@font/roppins_regular"
-            android:hint="Enter Password"
-            android:inputType="textPassword"
-            android:padding="12dp"
-            android:textSize="14sp"
-            android:textColor="#0047AB"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Sign Up Button -->
-        <Button
-            android:id="@+id/btnsignup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#F4A300"
-            android:fontFamily="@font/poppins_bold"
-            android:text="Sign Up"
-            android:textColor="#0047AB"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-
-        <!-- Already have account -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
+            <!-- Title -->
             <TextView
-                android:id="@+id/tvakun"
+                android:id="@+id/tvsignup2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/poppins_bold"
+                android:gravity="center"
+                android:text="Sign Up"
+                android:textColor="#0047AB"
+                android:textSize="33sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Name -->
+            <TextView
+                android:id="@+id/tvname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginRop="18dp"
+                android:paddingStart="4dp"
+                android:text="Name"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/tvsignup2"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/etname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/input"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Enter Name"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:textColor="#0047AB"
+                android:textColorHint="#757575"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/tvname"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Email -->
+            <TextView
+                android:id="@+id/tvemail2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginTop="10dp"
+                android:paddingStart="4dp"
+                android:text="Email"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/etname"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/etemail2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/input"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Enter Email"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                android:textColor="#0047AB"
+                android:textColorHint="#757575"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/tvemail2"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Password -->
+            <TextView
+                android:id="@+id/tvpassword2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:paddingStart="4dp"
+                android:text="Password"
+                android:layout_marginTop="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/etemail2"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:endIconMode="password_toggle"
+                app:endIconTint="#0047AB"
+                app:layout_constraintTop_toBottomOf="@id/tvpassword2"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etpassword2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input"
+                    android:fontFamily="@font/poppins_regular"
+                    android:hint="Enter Password"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    android:textColor="#0047AB"
+                    android:textColorHint="#757575"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Confirm Password -->
+            <TextView
+                android:id="@+id/tvconfirmpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:paddingStart="4dp"
+                android:text="Confirm Password"
+                android:layout_marginTop="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/passwordLayout"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/confirmPasswordLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp"
+                app:endIconMode="password_toggle"
+                app:endIconTint="#0047AB"
+                app:layout_constraintTop_toBottomOf="@id/tvconfirmpassword"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etconfirmpassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/input"
+                    android:fontFamily="@font/poppins_regular"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    android:layout_marginBottom="18dp"
+                    android:textColor="#0047AB"
+                    android:textColorHint="#757575"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Sign Up Button -->
+            <Button
+                android:id="@+id/btnsignup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#F4A300"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Sign Up"
+                android:textColor="#0047AB"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/confirmPasswordLayout"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Already have an account -->
+            <TextView
+                android:id="@+id/tvakun2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sudah punya akun?"
-                android:fontFamily="@font/roppins_regular"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Already have an account?"
                 android:textColor="#0047AB"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@id/btnsignup"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvlogin"
+                app:layout_constraintHorizontal_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/tvlogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" Login"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins_bold"
+                android:text=" Login"
                 android:textColor="#0047AB"
                 android:textSize="14sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/btnsignup"
+                app:layout_constraintStart_toEndOf="@id/tvakun2"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
